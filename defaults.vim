@@ -1,4 +1,4 @@
-# /usr/share/vim/vim82/defaults.vim
+" /usr/share/vim/vim82/defaults.vim
 " The default vimrc file.
 "
 " Maintainer:	Bram Moolenaar <Bram@vim.org>
