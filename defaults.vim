@@ -1,4 +1,12 @@
 " /usr/share/vim/vim82/defaults.vim
+" https://stackoverflow.com/a/1676659/13054937
+vmap ,ic :s/^/# /g<CR>:let @/ = ""<CR>
+map  ,ic :s/^/# /g<CR>:let @/ = ""<CR>
+vmap ,rc :s/^# //g<CR>:let @/ = ""<CR>
+map  ,rc :s/^# //g<CR>:let @/ = ""<CR>
+
+set number
+
 " The default vimrc file.
 "
 " Maintainer:	Bram Moolenaar <Bram@vim.org>
