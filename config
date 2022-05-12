@@ -1,0 +1,26 @@
+# ~/.config/terminator/config
+
+[global_config]
+  title_transmit_bg_color = "#e01b24"
+  title_receive_bg_color = "#1c71d8"
+  title_inactive_bg_color = "#c0bfbc"
+[keybindings]
+[profiles]
+  [[default]]
+    background_darkness = 0.95
+    cursor_color = "#aaaaaa"
+    scrollback_infinite = True
+  [[New Profile]]
+    cursor_color = "#aaaaaa"
+    font = Sans 6
+    use_system_font = False
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+      size = 935, 575
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+[plugins]
