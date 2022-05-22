@@ -1,1 +1,50 @@
 
+# ALL THANKS TO https://github.com/jazzpizazz/zsh-aliases
+
+# copy tun0 ip
+alias tun0="ifconfig tun0 | grep 'inet ' | cut -d' ' -f10 | tr -d '\n' | xclip -sel clip"
+
+# tcp scan all ports
+nmap_tcp () {
+  if [ $# -eq 0 ]
+    then
+      echo "[i] Usage: nmap_tcp ip (options)"
+    else
+      [ ! -d "./nmap" ] && echo "[i] Creating $(pwd)/nmap..." && mkdir nmap
+	  sudo nmap -T4 -sC -sV -p- --min-rate=1000 -v -oN nmap/tcp-all-ports "${@}" -Pn
+  fi
+}
+
+# udp scan top 1000 ports
+nmap_udp () {
+  if [ $# -eq 0 ]
+    then
+      echo "[i] Usage: nmap_udp ip (options)"
+    else
+      [ ! -d "./nmap" ] && echo "[i] Creating $(pwd)/nmap..." && mkdir nmap
+	  sudo nmap -sU -sC -sV --min-rate=1000 -vvv "${@}" -oN nmap/udp-top-1000-ports
+  fi
+}
+
+
+# gobuster files and directory scan
+dirscan () {
+  if [ $# -eq 0 ]
+    then
+      echo "[i] Usage: dirscan ip (options)"
+    else
+		[ ! -d "./scans" ] && echo "[i] Creating $(pwd)/scans..." && mkdir scans
+		gobuster dir -u "${@}" -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-medium-directories.txt -x php,txt,html --timeout 7s -t 50 -f -o scans/gobsuter-dirfiles-scan
+  fi
+}
+
+# ffuf subdomain scan
+subscan () {
+  if [ $# -eq 0 ]
+    then
+      echo "[i] Usage: subscan website.com (options)"
+    else
+		[ ! -d "./scans" ] && echo "[i] Creating $(pwd)/scans..." && mkdir scans
+		ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u http://${@}/ -H "Host: FUZZ.${@}" -of html -o scans/subdomain-scan.html
+  fi
+}
