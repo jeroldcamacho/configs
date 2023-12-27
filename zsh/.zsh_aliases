@@ -1,8 +1,17 @@
-
 # ALL THANKS TO https://github.com/jazzpizazz/zsh-aliases
+
+list_ips() {
+  ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "[\033[96m" iface"\033[0m] "a[1] }'
+}
+
+ls_pwd() {
+  echo -e "[\e[96m`pwd`\e[0m]\e[34m" && ls && echo -en "\e[0m"
+}
 
 # copy tun0 ip
 alias tun0="ifconfig tun0 | grep 'inet ' | cut -d' ' -f10 | tr -d '\n' | xclip -sel clip"
+alias www="list_ips && ls_pwd && sudo python3 -m http.server 80"
+alias code="code --user-data-dir='~/.vscode-root' --no-sandbox"
 
 # tcp scan all ports
 nmap_tcp () {
@@ -26,7 +35,6 @@ nmap_udp () {
   fi
 }
 
-
 # gobuster files and directory scan
 dirscan () {
   if [ $# -eq 0 ]
@@ -34,7 +42,7 @@ dirscan () {
       echo "[i] Usage: dirscan ip (options)"
     else
 		[ ! -d "./scans" ] && echo "[i] Creating $(pwd)/scans..." && mkdir scans
-		gobuster dir -u "${@}" -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-medium-directories.txt -x php,txt,html --timeout 7s -t 50 -f -o scans/gobsuter-dirfiles-scan
+		gobuster dir -u "${1}" -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-medium-directories.txt -x php,txt,html --timeout 7s -t 50 -f -o scans/${2}
   fi
 }
 
@@ -45,6 +53,6 @@ subscan () {
       echo "[i] Usage: subscan website.com (options)"
     else
 		[ ! -d "./scans" ] && echo "[i] Creating $(pwd)/scans..." && mkdir scans
-		ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u http://${@}/ -H "Host: FUZZ.${@}" -of html -o scans/subdomain-scan.html
+		ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt -u http://${@}/ -H "Host: FUZZ.${@}" -of html -o scans/subdomain-scan.html
   fi
 }
