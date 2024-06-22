@@ -1,3 +1,1 @@
-# dotfile configs
-
-saving my settings yes
+This contains my configs.
